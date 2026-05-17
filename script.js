@@ -1,7 +1,7 @@
 window.addEventListener("load", function(){
   setTimeout(function(){
     document.getElementById("loader").classList.add("hide");
-  }, 600);
+  }, 500);
 });
 
 function temaDegistir(){
@@ -18,4 +18,4 @@ function formGonder(event){
   alert("Mesajınız başarıyla gönderildi. Teşekkür ederiz!");
 }
 
-console.log("Gelişmiş Çakmak Dünyası final projesi çalışıyor.");
+console.log("Fotoğraflı Çakmak Dünyası final projesi çalışıyor.");
