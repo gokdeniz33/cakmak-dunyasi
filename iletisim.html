@@ -29,13 +29,45 @@
 </header>
 <main>
 <section class="section"><h1>İletişim</h1><p class="center-text">Görüş ve önerileriniz için formu doldurabilirsiniz.</p></section>
+
+<!-- ── İLETİŞİM BİLGİ KARTLARI ──────────────────────────────────── -->
+<section class="section iletisim-bilgi-baslik"><h2>İletişim Bilgileri</h2></section>
+<div class="iletisim-kartlar">
+  <div class="iletisim-kart">
+    <span class="iletisim-kart-ikon">📧</span>
+    <h3>E-posta</h3>
+    <a href="mailto:info@cakmakdunyasi.com">info@cakmakdunyasi.com</a>
+  </div>
+</div>
+
+<!-- ── İLETİŞİM FORMU ───────────────────────────────────────────── -->
 <section class="contact-box">
-<form onsubmit="formGonder(event)">
+<form id="iletisim-form" onsubmit="formGonder(event)">
 <label for="ad">Ad Soyad</label><input type="text" id="ad" name="ad" placeholder="Adınızı giriniz" required>
 <label for="eposta">E-posta</label><input type="email" id="eposta" name="eposta" placeholder="E-posta adresiniz" required>
 <label for="mesaj">Mesaj</label><textarea id="mesaj" name="mesaj" placeholder="Mesajınızı yazınız" required></textarea>
 <button type="submit">Gönder</button>
 </form>
+<div id="form-basari" class="form-basari gizli" role="status" aria-live="polite">
+  <span class="form-basari-ikon">✅</span>
+  <span>Mesajınız hazırlandı, mail uygulamanız açılıyor…</span>
+</div>
+</section>
+
+<!-- ── SOSYAL MEDYA LİNKLERİ ────────────────────────────────────── -->
+<section class="sosyal-bolum">
+  <h2 class="sosyal-baslik">Bizi Takip Edin</h2>
+  <div class="sosyal-linkler">
+    <a href="https://instagram.com/cakmakdunyasi" class="sosyal-btn" target="_blank" rel="noopener" aria-label="Instagram">
+      <span>📷</span> Instagram
+    </a>
+    <a href="https://x.com/cakmakdunyasi" class="sosyal-btn" target="_blank" rel="noopener" aria-label="X (Twitter)">
+      <span>✖️</span> X (Twitter)
+    </a>
+    <a href="https://wa.me/905551234567" class="sosyal-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <span>💬</span> WhatsApp
+    </a>
+  </div>
 </section>
 </main><footer>© 2026 Çakmak Dünyası | Gökdeniz YENİOCAK - 257351031</footer>
 <script src="script.js"></script></body></html>

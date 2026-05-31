@@ -15,7 +15,34 @@ if(localStorage.getItem("tema") === "light"){
 
 function formGonder(event){
   event.preventDefault();
-  alert("Mesajınız başarıyla gönderildi. Teşekkür ederiz!");
+
+  var ad     = document.getElementById("ad").value.trim();
+  var eposta = document.getElementById("eposta").value.trim();
+  var mesaj  = document.getElementById("mesaj").value.trim();
+
+  var subject = encodeURIComponent("Çakmak Dünyası - " + ad + " kişisinden mesaj");
+  var body    = encodeURIComponent(
+    "Ad Soyad: " + ad + "\r\n" +
+    "E-posta: "  + eposta + "\r\n\r\n" +
+    "Mesaj:\r\n"  + mesaj
+  );
+  var mailtoLink = "mailto:info@cakmakdunyasi.com?subject=" + subject + "&body=" + body;
+
+  window.location.href = mailtoLink;
+
+  /* Başarı mesajını göster */
+  var basariKutu = document.getElementById("form-basari");
+  if(basariKutu){
+    basariKutu.classList.remove("gizli");
+    /* prefers-reduced-motion kontrolü — animasyon yoksa doğrudan görünür */
+    if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+      basariKutu.style.animation = "none";
+    }
+  }
+
+  /* Formu sıfırla */
+  var form = document.getElementById("iletisim-form");
+  if(form) form.reset();
 }
 
 console.log("Fotoğraflı Çakmak Dünyası final projesi çalışıyor.");
@@ -41,7 +68,7 @@ console.log("Fotoğraflı Çakmak Dünyası final projesi çalışıyor.");
   if(!("IntersectionObserver" in window)) return; /* eski tarayıcı fallback */
 
   var targets = document.querySelectorAll(
-    ".card, .gallery-item, .tip, .timeline div, .section, .contact-box"
+    ".card, .gallery-item, .tip, .timeline div, .section, .contact-box, .iletisim-kart, .sosyal-bolum"
   );
 
   /* Önce hidden class'ı ekle — JS desteklenince gizle */
