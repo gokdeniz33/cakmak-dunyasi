@@ -20,7 +20,63 @@ function formGonder(event){
 
 console.log("Fotoğraflı Çakmak Dünyası final projesi çalışıyor.");
 
-/* ── MODAL / LİGHTBOX ─────────────────────────────────────────── */
+/* ── AKTİF SAYFA NAVBAR VURGUSU ─────────────────────────────────── */
+(function(){
+  var links = document.querySelectorAll(".navbar a");
+  var path = window.location.pathname.split("/").pop() || "index.html";
+  links.forEach(function(a){
+    var href = a.getAttribute("href");
+    if(href === path){
+      a.classList.add("active");
+    }
+  });
+})();
+
+/* ── SCROLL REVEAL (IntersectionObserver) ───────────────────────── */
+(function(){
+  /* prefers-reduced-motion kontrolü */
+  var prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(prefersReduced) return; /* animasyon istemiyorsa hiçbir şey yapma — içerik zaten görünür */
+
+  if(!("IntersectionObserver" in window)) return; /* eski tarayıcı fallback */
+
+  var targets = document.querySelectorAll(
+    ".card, .gallery-item, .tip, .timeline div, .section, .contact-box"
+  );
+
+  /* Önce hidden class'ı ekle — JS desteklenince gizle */
+  targets.forEach(function(el){
+    el.classList.add("reveal","hidden");
+  });
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        /* kısa gecikme ile sıralı belirme */
+        var delay = parseInt(entry.target.dataset.revealDelay) || 0;
+        setTimeout(function(){
+          entry.target.classList.remove("hidden");
+          entry.target.classList.add("visible");
+        }, delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.08,rootMargin:"0px 0px -30px 0px"});
+
+  /* Grid içindeki kartları sıralı gecikme ile işaretle */
+  var gridParents = {};
+  targets.forEach(function(el){
+    var parent = el.parentElement;
+    if(!parent) return;
+    var pid = parent.className;
+    if(!gridParents[pid]){ gridParents[pid] = 0; }
+    el.dataset.revealDelay = gridParents[pid] * 80;
+    gridParents[pid]++;
+    observer.observe(el);
+  });
+})();
+
+/* ── MODAL / LİGHTBOX ───────────────────────────────────────────── */
 
 var CAKMAK_DATA = {
   gazli: {
@@ -63,7 +119,6 @@ var CAKMAK_DATA = {
 
 var KEYS = ["gazli", "elektrikli", "metal", "torch", "koleksiyon", "klasik"];
 
-/* Modal DOM elemanlarını oluştur */
 var modalOverlay, modalPanel, modalImg, modalBaslik, modalYakit,
     modalAciklama, modalOzellikler, modalThumbsContainer, modalKapatBtn;
 
@@ -121,7 +176,6 @@ function buildModal() {
   thumbsSection.appendChild(thumbsTitle);
   thumbsSection.appendChild(modalThumbsContainer);
 
-  /* Thumbnailleri oluştur */
   KEYS.forEach(function(key) {
     var btn = document.createElement("button");
     btn.className = "ck-thumb-btn";
@@ -149,15 +203,10 @@ function buildModal() {
   modalOverlay.appendChild(modalPanel);
   document.body.appendChild(modalOverlay);
 
-  /* Kapatma: overlay'e tıklama */
   modalOverlay.addEventListener("click", function(e) {
     if (e.target === modalOverlay) modalKapat();
   });
-
-  /* Kapatma: × butonu */
   modalKapatBtn.addEventListener("click", modalKapat);
-
-  /* Kapatma: Esc */
   document.addEventListener("keydown", function(e) {
     if (e.key === "Escape" && modalOverlay.classList.contains("ck-modal-open")) {
       modalKapat();
@@ -182,7 +231,6 @@ function modalIcerikGuncelle(key) {
     modalOzellikler.appendChild(li);
   });
 
-  /* Aktif thumbnail vurgula */
   var thumbBtns = modalThumbsContainer.querySelectorAll(".ck-thumb-btn");
   thumbBtns.forEach(function(btn) {
     btn.classList.toggle("ck-thumb-active", btn.dataset.key === key);
@@ -200,7 +248,6 @@ function modalKapat() {
   document.body.classList.remove("ck-modal-body-lock");
 }
 
-/* Kartlara tıklama dinleyicisi ekle */
 function kartlariDinle() {
   var kartlar = document.querySelectorAll(".card, .gallery-item");
   kartlar.forEach(function(kart) {
@@ -209,7 +256,6 @@ function kartlariDinle() {
       var img = kart.querySelector("img[src]");
       if (!img) return;
       var src = img.getAttribute("src");
-      /* "images/metal.jpg" → "metal" */
       var match = src.match(/images\/([^/.]+)\./);
       if (!match) return;
       var key = match[1];
