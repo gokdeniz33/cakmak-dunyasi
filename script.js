@@ -26,7 +26,7 @@ function formGonder(event){
     "E-posta: "  + eposta + "\r\n\r\n" +
     "Mesaj:\r\n"  + mesaj
   );
-  var mailtoLink = "mailto:info@cakmakdunyasi.com?subject=" + subject + "&body=" + body;
+  var mailtoLink = "mailto:gokdenizyeniocak33@gmail.com?subject=" + subject + "&body=" + body;
 
   window.location.href = mailtoLink;
 
